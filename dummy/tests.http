@@ -1,0 +1,9 @@
+https://dummyjson.com/products/
+
+###
+
+GET https://dummyjson.com/products?skip=180
+
+###
+
+https://dummyjson.com/products/123
