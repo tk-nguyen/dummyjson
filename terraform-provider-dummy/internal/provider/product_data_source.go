@@ -27,27 +27,27 @@ func NewProductDataSource() datasource.DataSource {
 }
 
 type ProductDataSourceModel struct {
-	Id                   types.Int64    `tfsdk:"id"`
-	Title                types.String   `tfsdk:"title"`
-	Description          types.String   `tfsdk:"description"`
-	Category             types.String   `tfsdk:"category"`
-	Price                types.Float64  `tfsdk:"price"`
-	DiscountPercentage   types.Float64  `tfsdk:"discount_percentage"`
-	Rating               types.Float64  `tfsdk:"rating"`
-	Stock                types.Int64    `tfsdk:"stock"`
-	Tags                 types.List     `tfsdk:"tags"`
-	Brand                types.String   `tfsdk:"brand"`
-	Sku                  types.String   `tfsdk:"sku"`
-	Weight               types.Float64  `tfsdk:"weight"`
-	Dimensions           types.Object   `tfsdk:"dimensions"`
-	WarrantyInfo         types.String   `tfsdk:"warranty_info"`
-	ShippingInfo         types.String   `tfsdk:"shipping_info"`
-	AvailabilityStatus   types.String   `tfsdk:"availability_status"`
-	Reviews              types.List     `tfsdk:"reviews"`
-	ReturnPolicy         types.String   `tfsdk:"return_policy"`
-	MinimumOrderQuantity types.Int64    `tfsdk:"minimum_order_quantity"`
-	Thumbnail            types.String   `tfsdk:"thumbnail"`
-	Images               []types.String `tfsdk:"images"`
+	Id                   types.Int64   `tfsdk:"id"`
+	Title                types.String  `tfsdk:"title"`
+	Description          types.String  `tfsdk:"description"`
+	Category             types.String  `tfsdk:"category"`
+	Price                types.Float64 `tfsdk:"price"`
+	DiscountPercentage   types.Float64 `tfsdk:"discount_percentage"`
+	Rating               types.Float64 `tfsdk:"rating"`
+	Stock                types.Int64   `tfsdk:"stock"`
+	Tags                 types.List    `tfsdk:"tags"`
+	Brand                types.String  `tfsdk:"brand"`
+	Sku                  types.String  `tfsdk:"sku"`
+	Weight               types.Float64 `tfsdk:"weight"`
+	Dimensions           types.Object  `tfsdk:"dimensions"`
+	WarrantyInfo         types.String  `tfsdk:"warranty_info"`
+	ShippingInfo         types.String  `tfsdk:"shipping_info"`
+	AvailabilityStatus   types.String  `tfsdk:"availability_status"`
+	Reviews              types.List    `tfsdk:"reviews"`
+	ReturnPolicy         types.String  `tfsdk:"return_policy"`
+	MinimumOrderQuantity types.Int64   `tfsdk:"minimum_order_quantity"`
+	Thumbnail            types.String  `tfsdk:"thumbnail"`
+	Images               types.List    `tfsdk:"images"`
 }
 
 func (d *ProductDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -286,6 +286,8 @@ func (d *ProductDataSource) Read(ctx context.Context, req datasource.ReadRequest
 	data.ReturnPolicy = types.StringValue(product.ReturnPolicy)
 	data.MinimumOrderQuantity = types.Int64Value(int64(product.MinimumOrderQuantity))
 	data.Thumbnail = types.StringValue(product.Thumbnail)
+	data.Images, diags = types.ListValueFrom(ctx, types.StringType, product.Images)
+	resp.Diagnostics.Append(diags...)
 	reviews := make([]types.Object, 0)
 	for _, review := range product.Reviews {
 		rm := ReviewModel{

@@ -77,7 +77,7 @@ func (p *DummyProvider) Configure(ctx context.Context, req provider.ConfigureReq
 
 func (p *DummyProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
-		NewExampleResource,
+		NewProductResource,
 	}
 }
 
